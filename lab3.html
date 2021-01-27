@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id = "newdiv"></div>
+     <script>
+        fetch ("")
+        .then ((response)=> {
+          return response.json()
+        })
+        .then ((json)=> {  
+          let h1 = document.createElement("h1")
+          h1.innerText = "The Vertical Magnetic Field of NGC 5775"
+          let img = document.createElement("img")
+          img.setAttribute("src", "https://apod.nasa.gov/apod/image/2101/NGC5775_NraoEnglish_6067.jpg")
+          document.querySelector("#newdiv").appendChild(h1)
+          document.querySelector("#newdiv").appendChild(img)
+          
+        })
+    </script>
+  </body>
+</html>
