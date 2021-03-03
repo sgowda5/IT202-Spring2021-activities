@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+  </head>
+  <body>
+    <canvas id="c1" width="500" height="500"></canvas>
+    <script>
+      let c = document.querySelector("#c1");
+      c.style.backgroundColor = "silver";
+      let ctx = c.getContext("2d");
+  
+      // create objects per the lab activity
+      let gameObjs = [];
+      gameObjs.push( {x: 250, y: 250, radius: 25, color: "red" } )
+      gameObjs.push( {x: 275, y: 275, radius: 25, color: "green" } )
+      gameObjs.push( {x: 200, y: 300, radius: 25, color: "blue" } )
+      
+      for (let i = 0; i < 25; i++) {
+        let radious = 25;
+        let x = radious + (Math.random() * (c.width - (2 * radious)));
+        let y = radious + (Math.random() * (c.height - (2 * radious)));
+        let chars = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += chars[Math.floor(Math.random() * 16)];
+        }
+        gameObjs.push({x:x, y:y, radius: 25, color:color});
+      }
+
+      gameObjs.forEach( (obj) => {
+        ctx.beginPath()
+        ctx.arc(obj.x, obj.y, obj.radius, 0, Math.PI*2);
+        ctx.closePath();
+        ctx.fillStyle = obj.color;
+        ctx.fill();
+      });
+
+      // create a function named areColliding that accepts two objects and returns a boolen based on collision
+      // https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+      let areColliding = (circle1, circle2) => {
+        let dx = circle1.x - circle2.x;
+        let dy = circle1.y - circle2.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < circle1.radius + circle2.radius) { return true; }
+        return false;
+      }
+      
+      // loop the objects to compare every pair
+      //    and if a pair are colliding, redraw them
+      //    with a white border
+      gameObjs.forEach( (cir1) => {
+        gameObjs.forEach( (cir2) => {
+          if (cir1.x != cir2.x || cir1.y != cir2.y) {
+            if (areColliding(cir1, cir2)) {
+              ctx.beginPath();
+              ctx.arc(cir1.x, cir1.y, cir1.radius, 0, 2*Math.PI);
+              ctx.strokeStyle = "white";
+              ctx.fillStyle = cir1.color;
+              ctx.lineWidth = 5;
+              ctx.closePath();
+              ctx.fill();
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(cir2.x, cir2.y, cir2.radius, 0, 2*Math.PI);
+              ctx.strokeStyle = "white";
+              ctx.fillStyle = cir2.color;
+              ctx.lineWidth = 5;
+              ctx.closePath();
+              ctx.fill();
+              ctx.stroke();
+            }
+          }
+        });
+      });
+      // once you get that working, update the code above to create 25 additional gameObjects with random x, y and color values; and push them to the array before the drawing and comparison
+    </script>
+  </body>
+</html>
