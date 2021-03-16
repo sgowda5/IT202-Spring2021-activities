@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Lab 10</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  
+  <body>
+    <h1 >Welcome</h1>
+    <form id="pageInfo">
+      <p>Your Text Goes Here =><p>
+      <textarea form="pageInfo" id="inputText" name="inputText"></textarea>
+      <p>Select your language</p>
+      <select name="selectOptions" id="selectOptions"> <option></option>
+      </select>
+      <button id="speakButton" type="submit">Speak</button>
+    </form>
+
+    <script>
+    
+      let voices = [];
+      let synth = window.speechSynthesis;
+      let inputForm = document.querySelector('#pageInfo');
+      let inputTxt = document.querySelector('#inputText');
+      let voiceSelect = document.querySelector('select');
+      let buttonElem = document.querySelector('#speakButton');
+      buttonElem.disabled = true;
+      
+      
+      let populateVoiceList = () => {
+        voices = synth.getVoices();
+        let i = 0;
+        for (i; i < voices.length ; i++) {
+          let userOpt = document.createElement('option');
+          userOpt.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+          userOpt.value = i;
+          voiceSelect.appendChild(userOpt);
+        }
+      }
+
+      voiceSelect.addEventListener('change', (event) => {
+        buttonElem.disabled = false;
+      });
+
+      populateVoiceList();
+      if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoiceList;
+      }
+
+      buttonElem.addEventListener('click', (event) => {
+        event.preventDefault();
+        let speakThis = new SpeechSynthesisUtterance(inputTxt.value);
+        let voice = voices[voiceSelect.value];
+        speakThis.voice = voice;
+        synth.speak(speakThis);
+      });
+
+    </script>
+  </body>
+</html>
