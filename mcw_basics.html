@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <head>
+          <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+          <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      </head>
+  </head>
+  <body>
+    <label class="mdc-text-field mdc-text-field--filled">
+      <span class="mdc-text-field__ripple">
+      </span>
+      <span class="mdc-floating-label" id="my-label-id">Enter your name</span>
+      <input class="mdc-text-field__input" type="text" aria-labelledby="my-label-id">
+      <span class="mdc-line-ripple"></span>
+    </label> 
+    <br>
+    <br>
+    <button class="mdc-button mdc-button--raised foo-button">
+        <div class="mdc-button__ripple"></div>
+        <span class="mdc-button__label">Show Snackbar</span>
+    </button>
+    <br>
+    <br>
+    <div class="mdc-snackbar">
+      <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+        <div class="mdc-snackbar__label" aria-atomic="false"> Value </div>
+      </div>
+    </div>
+    
+    <script>
+      let txtField = mdc.textField.MDCTextField.attachTo(document.querySelector('.mdc-text-field'));
+      let button = mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button--raised'));
+      let snackBar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar"));
+
+      document.querySelector('.mdc-button--raised').addEventListener("click", function(){
+        const inputValue = txtField.value;
+        let adjustedText = "You entered " + inputValue
+        snackBar.labelText = adjustedText;
+        snackBar.open();
+    });
+    </script>
+  </body>
+</html>
